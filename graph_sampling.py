@@ -94,7 +94,7 @@ for i in range(X.shape[0]):
     for j in range(i + 1, X.shape[0]):
         if(A[i, j] > 0):
             lines.append([X[i, :], X[j, :]])
-lc = LineCollection(lines)
+lc = LineCollection(lines, linewidths=0.5)
 ax.add_collection(lc)
 plt.scatter(X[:, 0], X[:, 1], c=x[0, :], cmap='cool', vmin=-0.3, vmax=0.3)
 plt.colorbar()
@@ -104,8 +104,8 @@ plt.close()
 
 
 
-UU = subspace_estimate_with_gft(x, A)
-# UU = subspace_estimate_with_group_lasso(x, A)
+# UU = subspace_estimate_with_gft(x, A)
+UU = subspace_estimate_with_group_lasso(x, A)
 
 m = UU.shape[0]
 c, St = vertex_sampling(x[0, :], m, make_random_sampler)
@@ -119,7 +119,7 @@ for i in range(X.shape[0]):
     for j in range(i + 1, X.shape[0]):
         if(A[i, j] > 0):
             lines.append([X[i, :], X[j, :]])
-lc = LineCollection(lines)
+lc = LineCollection(lines, linewidths=0.5)
 ax.add_collection(lc)
 plt.scatter(X[:, 0], X[:, 1], c=x_, cmap='cool', vmin=-0.3, vmax=0.3)
 plt.colorbar()
