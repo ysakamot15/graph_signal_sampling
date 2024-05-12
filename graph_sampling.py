@@ -70,11 +70,11 @@ def subspace_estimate_with_pca(X, k=0.9):
 def subspace_estimate_with_gft(X, A, thresh_percent = 0.7):
     gft = GraphFourierTransformer(A)
     Xf = gft.transform(X)
-    s = np.sum(np.abs(Xf), axis=0)
+    s = np.sqrt(np.sum((Xf * Xf), axis=0))
     s_average = np.average(s)
     return gft.U[:, s > s_average * thresh_percent]
 
-def subspace_estimate_with_group_lasso(X, A, alpha = 0.005):
+def subspace_estimate_with_group_lasso(X, A, alpha = 0.00297):
     gft = GraphFourierTransformer(A)
     clf = linear_model.MultiTaskLasso(alpha=alpha, fit_intercept = False)
     clf.fit(gft.U, X.T)
@@ -85,7 +85,7 @@ np.random.seed(1)
 
 X, A = make_random_graph(150)
 
-x, U = make_band_limiation_signals(A, 8)
+x, U = make_band_limiation_signals(A, 5)
 
 
 fig, ax = plt.subplots()
@@ -107,7 +107,7 @@ plt.close()
 # UU = subspace_estimate_with_gft(x, A)
 UU = subspace_estimate_with_group_lasso(x, A)
 
-m = UU.shape[0]
+m = UU.shape[1]
 c, St = vertex_sampling(x[0, :], m, make_random_sampler)
 H = make_correction_transformation(St, UU)
 x_ = UU @ H @ c
