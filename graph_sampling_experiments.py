@@ -48,8 +48,8 @@ def graph_sampling_and_recover(V, x, N, M, adj, A):
 
     # 復元後の信号と原信号の誤差計算
     err = np.linalg.norm(x_hat - x)
-    print(err)
-    mlflow.log_metric('recover error', err)
+    print("recover error:", err)
+    mlflow.log_metric("recover error", err)
 
     # 復元後のグラフ信号を描画
     _, ax = plt.subplots()
