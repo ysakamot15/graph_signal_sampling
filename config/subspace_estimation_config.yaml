@@ -1,0 +1,26 @@
+experiment_name: "subspace estimation"
+seed: 0
+graph_params:
+  number_of_graph_vertex: 200
+  number_of_adjacent: 4
+observation_size: 50
+signal_params:
+  signal_kind: 'band_limitation'
+  band_limitation_signal_params:
+    number_of_remain: 20
+    noise_std: 1
+  piecewise_constant_signal_params:
+    number_of_cluster: 5
+    noise_std: 2
+  pgs_signal_params:
+    period: 5
+    noise_std: 2
+method_params:
+  use_method: 'pca'
+  vertex_regularization_params:
+    alpha: 10
+    beta: 50
+  frequency_regularization_params:
+    alpha: 100
+    beta: 0
+sampling_size: 30

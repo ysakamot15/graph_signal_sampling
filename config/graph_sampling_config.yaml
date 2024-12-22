@@ -1,0 +1,5 @@
+experiment_name: "graph sampling"
+seed: 10
+N: 200
+K: 40
+M: 30
