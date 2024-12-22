@@ -37,6 +37,7 @@ def subspace_estimate_with_regularization(Y, T, alpha, beta):
     prox = lambda Y: trace_prox(Y, beta * eta)
     W_init = np.copy(Y)
     W_hat = proximal_gradient_method(grad, prox, eta, W_init)
+    print("rank of estimated W:", np.linalg.matrix_rank(W_hat))
     return W_hat
 
 def subspace_estimate_with_vertex_regularization(X, adj, k, alpha, beta):
@@ -48,8 +49,8 @@ def subspace_estimate_with_vertex_regularization(X, adj, k, alpha, beta):
 def subspace_estimate_with_frequency_regularization(X, adj, k, alpha, beta):
     gft = utils.GraphFourierTransformer(adj)
     X_ = gft.transform(X)
-    P = np.eye(X.shape[1]) - (np.eye(X.shape[1], k=-k) +
-                              np.eye(X.shape[1], k= X.shape[1] - k))
-    W = subspace_estimate_with_regularization(X_, P @ P.T, alpha, beta)
+    P = (np.eye(X.shape[1], k=-k) + np.eye(X.shape[1], k= X.shape[1] - k))
+    P_ = np.eye(X.shape[1]) - P
+    W = subspace_estimate_with_regularization(X_, P_ @ P_.T, alpha, beta)
     Uk, _, _ = np.linalg.svd(W.T)
     return  gft.U @ Uk[:, :k], W
